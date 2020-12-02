@@ -1,0 +1,27 @@
+#集群名称，保证唯一
+cluster.name: "es-docker-cluster"
+network.host: 0.0.0.0
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
+
+index.analysis.analyzer.default.type: standard
+
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+#节点名称，必须不一样
+node.name: es03
+#集群发现机制
+discovery.seed_hosts: ["es02","es01"]
+#不填写的话,一个节点挂掉会报错，然后通知
+cluster.initial_master_nodes: ["es01","es02","es03"]
+#服务端口号，在同一机器下必须不一样
+http.port: 9203
+#防止频繁的读
+bootstrap.memory_lock: true
+#集群间通信端口号，在同一机器下必须不一样
+transport.tcp.port: 9303
+#设置集群自动发现机器ip集合
+discovery.zen.ping.unicast.hosts: ["es01","es02","es03"]
